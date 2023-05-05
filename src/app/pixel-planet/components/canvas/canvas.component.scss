@@ -1,0 +1,29 @@
+$border-color: rgba(255, 255, 255, 0.3);
+.canvas {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  background-repeat: no-repeat;
+  background-size: contain;
+  > .pixel-row {
+    display: flex;
+    flex-direction: row;
+    //width: fit-content;
+    > .pixel-item {
+      //box-sizing: border-box;
+    }
+  }
+}
+
+.canvas-wrapper.show-grid {
+  //border-width: ;
+  border-width: 0.5px;
+  border-style: solid;
+  border-color: $border-color;
+  .pixel-item {
+    border-width: 0.5px;
+    border-style: solid;
+    border-color: $border-color;
+  }
+}

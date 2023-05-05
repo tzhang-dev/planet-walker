@@ -1,0 +1,17 @@
+<div class="canvas-wrapper" [class.show-grid]="show_grid">
+  <div
+    class="canvas"
+    [style.background-image]="canvas.bg_img"
+    [style.width]="(canvas.col_num * canvas.pixel_size).toString() + 'px'"
+  >
+    <div class="pixel-row" *ngFor="let row of canvas.matrix">
+      <div
+        class="pixel-item"
+        *ngFor="let item of row"
+        [style.height]="canvas.pixel_size.toString() + 'px'"
+        [style.width]="canvas.pixel_size.toString() + 'px'"
+        [style.background-color]="item.color"
+      ></div>
+    </div>
+  </div>
+</div>

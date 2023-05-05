@@ -1,1 +1,17 @@
+.tabs {
+  background-color: #0a1526;
+  height: 80px;
+  * {
+    background-color: inherit;
+  }
+}
 
+svg.icon {
+  width: 42px;
+  height: 42px;
+  fill: #9d9d9d;
+}
+
+.tab-selected svg.icon {
+  fill: #1bb282;
+}
