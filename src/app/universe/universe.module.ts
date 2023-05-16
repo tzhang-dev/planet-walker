@@ -7,6 +7,7 @@ import { UniversePage } from './universe.page';
 import { UniversePageRoutingModule } from './universe-routing.module';
 import { PlanetWholeComponent } from '../pixel-planet/components/planet-whole/planet-whole.component';
 import { PlanetHalfComponent } from '../pixel-planet/components/planet-half/planet-half.component';
+import { CanvasComponent } from '../pixel-planet/components/canvas/canvas.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { PlanetHalfComponent } from '../pixel-planet/components/planet-half/plan
     FormsModule,
     UniversePageRoutingModule,
     PlanetHalfComponent,
+    CanvasComponent,
   ],
   declarations: [UniversePage, PlanetWholeComponent],
 })

@@ -14,7 +14,6 @@ import { planets } from '../../utils/planets';
 export class PlanetHalfComponent implements OnInit {
   @Input() public side: 'left' | 'right' = 'left';
   @Input() public planet_name: keyof typeof planets = 'default';
-  @Input() public pixel_size: number = 20;
   @Input() public show_bonus: boolean = true;
   @Input() show_grid: boolean = true;
   private _scores: number[] = [
@@ -31,7 +30,6 @@ export class PlanetHalfComponent implements OnInit {
   ngOnInit() {
     this.half_canvas = new HalfPlanetCanvas(this.side);
     this.half_canvas.set_bg_img(planets[this.planet_name][this.side]);
-    this.half_canvas.set_pixel_size(this.pixel_size);
     this.half_canvas.flat_from_score_to_planet(this._scores);
     this.flat_bonus();
   }
