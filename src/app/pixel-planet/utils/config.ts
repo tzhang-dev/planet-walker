@@ -10,3 +10,5 @@ export const WHOLE_PLANET_IN_CANVAS = {
 };
 export const DAILY_MAX_SCORE_GAIN = 10;
 export const CHALLENGE_DAYS = 20;
+
+export const PLAYER_NUMBER = 16;

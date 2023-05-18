@@ -1,4 +1,4 @@
-type planet_names = 'default';
+export type planet_names = 'default';
 export const planets: {
   [key in planet_names]: { left: string; right: string; whole: string };
 } = {

@@ -3,7 +3,7 @@ import {
   DAILY_MAX_SCORE_GAIN,
   HALF_PLANET_IN_CANVAS,
   WHOLE_PLANET_IN_CANVAS,
-} from './configure';
+} from './config';
 import { map_from_flat_score } from './mapping';
 
 interface CanvasData {
