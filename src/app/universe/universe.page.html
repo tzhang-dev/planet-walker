@@ -1,7 +1,12 @@
-<ion-content *ngIf="ready" [fullscreen]="true">
+<ion-content [scrollY]="false" *ngIf="ready" [fullscreen]="true">
   <div class="main">
     <app-planet-whole
-      *ngFor="let planet of planet_names"
+      class="planet"
+      *ngFor="let planet of planet_names; let i = index"
+      [ngClass]="{'planet-right-top': i % 4 === 0,
+      'planet-left-bottom': i % 4 === 1,
+      'planet-left-top': i % 4 === 2,
+      'planet-right-bottom': i % 4 === 3, }"
       [planet_name]="planet"
       [left]="grouped[planet].left"
       [right]="grouped[planet].right"

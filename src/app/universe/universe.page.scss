@@ -1,0 +1,46 @@
+$offset-hor: 15%;
+$offset-ver: 15%;
+.main {
+  display: grid;
+  height: 100%;
+  max-width: 600px;
+  padding: 15% 0;
+  position: relative;
+
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "planet planet"
+    "planet planet"
+    "planet planet"
+    "planet planet";
+  justify-items: center;
+  align-items: center;
+  //grid-row-gap: 5%;
+
+  background: url("/assets/planet-walker/planets/solar-system/background-4px.png");
+  background-size: cover;
+  //grid-gap: 10px;
+  .planet {
+    &.planet-left-top {
+      position: relative;
+      left: -$offset-hor;
+      top: -$offset-ver;
+    }
+    &.planet-right-top {
+      position: relative;
+      left: $offset-hor;
+      top: -$offset-ver;
+    }
+    &.planet-left-bottom {
+      position: relative;
+      left: $offset-hor;
+      top: $offset-ver;
+    }
+    &.planet-right-bottom {
+      position: relative;
+      left: -$offset-hor;
+      top: $offset-ver;
+    }
+  }
+}
