@@ -4,6 +4,7 @@ import { HalfPlanetCanvas } from '../../utils/canvas';
 import { NgIf } from '@angular/common';
 import { planets } from '../../utils/planets';
 import { Point } from '../../utils/point';
+import shared from '../../utils/shared';
 
 @Component({
   selector: 'app-planet-half',
@@ -13,28 +14,29 @@ import { Point } from '../../utils/point';
   imports: [CanvasComponent, NgIf],
 })
 export class PlanetHalfComponent implements OnInit {
-  @Input() public side: 'left' | 'right' = 'left';
-  @Input() public planet_name: keyof typeof planets = 'default';
-  @Input() public show_bonus: boolean = true;
-  @Input() show_grid: boolean = true;
+  public player = shared.player!;
   private _points: number[] = [];
   public half_canvas?: HalfPlanetCanvas;
   @Input() set points(points: Point[]) {
     this._points = points.map((point) => point.value);
     this.half_canvas?.flat_from_score_to_planet(this._points);
+    this.flat_points();
     this.flat_bonus();
   }
   constructor() {}
 
   ngOnInit() {
-    this.half_canvas = new HalfPlanetCanvas(this.side);
-    this.half_canvas.set_bg_img(planets[this.planet_name][this.side]);
-    this.half_canvas.flat_from_score_to_planet(this._points);
+    this.half_canvas = new HalfPlanetCanvas(this.player.side!);
+    this.half_canvas.set_bg_img(
+      planets[this.player.planet_name!][this.player.side!]
+    );
+    this.flat_points();
     this.flat_bonus();
   }
   private flat_bonus() {
-    if (this.show_bonus) {
-      this.half_canvas?.flat_from_score_to_bonus(this._points);
-    }
+    this.half_canvas?.flat_from_score_to_bonus(this._points);
+  }
+  private flat_points() {
+    this.half_canvas?.flat_from_score_to_planet(this._points);
   }
 }

@@ -1,28 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { planets } from '../../utils/planets';
+import { PlanetNames, planets } from '../../utils/planets';
 import { WholePlanetCanvas } from '../../utils/canvas';
+import { Point } from '../../utils/point';
 
 @Component({
-  selector: 'app-planet-whole',
+  selector: 'app-planet-whole[planet_name][left][right]',
   templateUrl: './planet-whole.component.html',
   styleUrls: ['./planet-whole.component.scss'],
 })
 export class PlanetWholeComponent implements OnInit {
-  @Input() planet_name: keyof typeof planets = 'default';
-  planet = planets[this.planet_name];
-  scores_left = [
-    0, 13, 10, 3, 15, 0, 6, 13, 0, 10, 1, 13, 3, 15, 4, 9, 6, 13, 4, 6,
-  ];
-  scores_right = [
-    0, 13, 10, 3, 15, 0, 6, 13, 0, 10, 1, 13, 3, 15, 4, 9, 6, 13, 4, 6,
-  ];
-  canvas?: WholePlanetCanvas;
+  canvas: WholePlanetCanvas = new WholePlanetCanvas();
+  @Input() set planet_name(planet_name: PlanetNames) {
+    this.canvas.set_bg_img(planets[planet_name].whole);
+  }
+  @Input() set left(points: Point[]) {
+    const scores = points.map((point) => point.value);
+    this.canvas.flat_from_score_to_planet('left', scores);
+  }
+  @Input() set right(points: Point[]) {
+    const scores = points.map((point) => point.value);
+    this.canvas.flat_from_score_to_planet('right', scores);
+  }
   constructor() {}
 
-  ngOnInit() {
-    this.canvas = new WholePlanetCanvas();
-    this.canvas.set_bg_img(planets[this.planet_name].whole);
-    this.canvas.flat_from_score_to_planet('right', this.scores_right);
-    this.canvas.flat_from_score_to_planet('left', this.scores_left);
-  }
+  ngOnInit() {}
 }

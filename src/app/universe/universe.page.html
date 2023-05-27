@@ -1,3 +1,10 @@
-<ion-content [fullscreen]="true">
-  <app-planet-whole [planet_name]="'default'"></app-planet-whole>
+<ion-content *ngIf="ready" [fullscreen]="true">
+  <div class="main">
+    <app-planet-whole
+      *ngFor="let planet of planet_names"
+      [planet_name]="planet"
+      [left]="grouped[planet].left"
+      [right]="grouped[planet].right"
+    ></app-planet-whole>
+  </div>
 </ion-content>
