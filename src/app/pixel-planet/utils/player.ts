@@ -1,6 +1,5 @@
 import { PlanetNames } from './planets';
 import { Point } from './point';
-import { ConfigService } from '../services/config.service';
 
 export interface PlayerData {
   player_id: number | undefined;
@@ -14,7 +13,7 @@ export class Player implements PlayerData {
   public side?: 'left' | 'right';
   public points: Point[] = [];
 
-  constructor(playerData: PlayerData, private config: ConfigService) {
+  constructor(playerData: PlayerData) {
     this.player_id = playerData.player_id;
     this.planet_name = playerData.planet_name;
     this.side = playerData.side;
@@ -23,7 +22,7 @@ export class Player implements PlayerData {
     // TODO: call api
     // FAKE DATA START
     const points = [] as Point[];
-    for (let i = 0; i < this.config.CHALLENGE_DAYS; i++) {
+    for (let i = 0; i < 20; i++) {
       points.push(
         new Point({
           value: Math.floor(Math.random() * 12),

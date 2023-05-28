@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Player } from '../utils/player';
 import { planet_names } from '../utils/planets';
 import { BehaviorSubject } from 'rxjs';
-import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AllPlayersService {
   players = new BehaviorSubject<Player[]>([]);
-  constructor(private config: ConfigService) {
+  constructor() {
     this.init();
     this.scheduledUpdate();
   }
@@ -19,7 +18,7 @@ export class AllPlayersService {
     const players = [];
     for (const planet of planet_names) {
       for (const side of ['left', 'right'] as const) {
-        const player = new Player({ player_id: player_id }, this.config);
+        const player = new Player({ player_id: player_id });
         player.planet_name = planet;
         player.side = side;
         player.points = [];
