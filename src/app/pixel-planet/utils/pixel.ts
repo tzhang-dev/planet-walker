@@ -19,7 +19,7 @@ export class Pixel implements PixelData {
     this.color = '#82B1C5';
     return this;
   }
-  set_bonus_plus() {
+  set_super() {
     this.color = '#E3FBFF';
     return this;
   }

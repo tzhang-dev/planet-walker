@@ -74,6 +74,9 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
       if (score >= this.config.DAILY_BONUS_GRANT) {
         const [row, col] = map_from_flat_score(this.side, 'bonus', i);
         this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_bonus();
+        if (score >= this.config.DAILY_SUPER_GRANT) {
+          this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_super();
+        }
       }
     }
     return this.matrix;
