@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Player } from '../utils/player';
-import { planet_names, PlanetNames, planets } from '../utils/planets';
-import { Point } from '../utils/point';
-import { CHALLENGE_DAYS } from '../utils/config';
-import { ThisChallengeService } from './this-challenge.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { planet_names } from '../utils/planets';
+import { BehaviorSubject } from 'rxjs';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AllPlayersService {
   players = new BehaviorSubject<Player[]>([]);
-  constructor(private thisChallenge: ThisChallengeService) {
+  constructor(private config: ConfigService) {
     this.init();
     this.scheduledUpdate();
   }
@@ -21,7 +19,7 @@ export class AllPlayersService {
     const players = [];
     for (const planet of planet_names) {
       for (const side of ['left', 'right'] as const) {
-        const player = new Player({ player_id: player_id });
+        const player = new Player({ player_id: player_id }, this.config);
         player.planet_name = planet;
         player.side = side;
         player.points = [];

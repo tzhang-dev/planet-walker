@@ -13,9 +13,9 @@ $border-color: rgba(255, 255, 255, 0.3);
     }
   }
 }
-
 .canvas-wrapper.show-grid {
-  //border-width: ;
+  display: inline-block;
+  width: auto;
   border-width: 0.5px;
   border-style: solid;
   border-color: $border-color;

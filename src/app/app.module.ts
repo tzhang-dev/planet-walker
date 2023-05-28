@@ -7,7 +7,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ThisPlayerService } from './pixel-planet/services/this-player.service';
-import { ThisChallengeService } from './pixel-planet/services/this-challenge.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,7 +14,6 @@ import { ThisChallengeService } from './pixel-planet/services/this-challenge.ser
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ThisPlayerService,
-    ThisChallengeService,
   ],
   bootstrap: [AppComponent],
 })

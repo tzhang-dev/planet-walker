@@ -1,10 +1,6 @@
 import { Pixel, PixelData } from './pixel';
-import {
-  DAILY_BONUS_GRANT,
-  HALF_PLANET_IN_CANVAS,
-  WHOLE_PLANET_IN_CANVAS,
-} from './config';
 import { map_from_flat_score } from './mapping';
+import { ConfigService } from '../services/config.service';
 
 interface CanvasData {
   matrix: PixelData[][];
@@ -20,7 +16,7 @@ export class Canvas implements CanvasData {
   col_num: number;
   bg_img: string;
   pixel_size: number;
-  constructor() {}
+  constructor(protected config: ConfigService) {}
   protected init_pixel_items() {
     for (let i = 0; i < this.row_num; i++) {
       this.matrix[i] = [];
@@ -44,13 +40,16 @@ interface HalfPlanetCanvasData extends CanvasData {
 }
 
 export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
-  override row_num: number = HALF_PLANET_IN_CANVAS['row_num'];
-  override col_num: number = HALF_PLANET_IN_CANVAS['col_num'];
-  override pixel_size: number = HALF_PLANET_IN_CANVAS['pixel_size'];
-  nb = 10;
+  override row_num: number = this.config.HALF_PLANET_IN_CANVAS['row_num'];
+  override col_num: number = this.config.HALF_PLANET_IN_CANVAS['col_num'];
   public side: 'left' | 'right';
-  constructor(side: 'left' | 'right') {
-    super();
+  constructor(
+    pixelSize: number,
+    side: 'left' | 'right',
+    config: ConfigService
+  ) {
+    super(config);
+    this.pixel_size = pixelSize;
     this.init_pixel_items();
     this.side = side;
   }
@@ -58,7 +57,7 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
     let counter = 0;
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i];
-      for (let j = 0; j < DAILY_BONUS_GRANT; j++) {
+      for (let j = 0; j < this.config.DAILY_BONUS_GRANT; j++) {
         if (j >= score) {
           const [row, col] = map_from_flat_score(this.side, 'half', counter);
           this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_mask();
@@ -72,7 +71,7 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
   public flat_from_score_to_bonus(scores: number[]): PixelData[][] {
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i];
-      if (score >= DAILY_BONUS_GRANT) {
+      if (score >= this.config.DAILY_BONUS_GRANT) {
         const [row, col] = map_from_flat_score(this.side, 'bonus', i);
         this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_bonus();
       }
@@ -84,18 +83,18 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
 interface WholePlanetCanvasData extends CanvasData {}
 
 export class WholePlanetCanvas extends Canvas implements WholePlanetCanvasData {
-  override row_num: number = WHOLE_PLANET_IN_CANVAS['row_num'];
-  override col_num: number = WHOLE_PLANET_IN_CANVAS['col_num'];
-  override pixel_size: number = WHOLE_PLANET_IN_CANVAS['pixel_size'];
-  constructor() {
-    super();
+  override row_num: number = this.config.WHOLE_PLANET_IN_CANVAS['row_num'];
+  override col_num: number = this.config.WHOLE_PLANET_IN_CANVAS['col_num'];
+  constructor(pixelSize: number, config: ConfigService) {
+    super(config);
+    this.pixel_size = pixelSize;
     this.init_pixel_items();
   }
   public flat_from_score_to_planet(side: 'left' | 'right', scores: number[]) {
     let counter = 0;
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i];
-      for (let j = 0; j < DAILY_BONUS_GRANT; j++) {
+      for (let j = 0; j < this.config.DAILY_BONUS_GRANT; j++) {
         if (j >= score) {
           const [row, col] = map_from_flat_score(side, 'whole', counter);
           this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_mask();

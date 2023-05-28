@@ -1,3 +1,8 @@
 <div class="main">
-  <app-canvas *ngIf="canvas" [canvas]="canvas" [show_grid]="false"></app-canvas>
+  <app-canvas
+    (window:resize)="onResize()"
+    *ngIf="canvas"
+    [canvas]="canvas"
+    [show_grid]="false"
+  ></app-canvas>
 </div>

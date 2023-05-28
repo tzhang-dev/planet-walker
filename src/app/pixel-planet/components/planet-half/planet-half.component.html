@@ -1,4 +1,5 @@
 <app-canvas
+  (window:resize)="onResize()"
   *ngIf="half_canvas !== undefined"
   [show_grid]="true"
   [canvas]="half_canvas!"

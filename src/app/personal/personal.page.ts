@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../pixel-planet/utils/player';
 import { ThisPlayerService } from '../pixel-planet/services/this-player.service';
-import {
-  DAILY_BONUS_GRANT,
-  DAILY_SUPER_GRANT,
-} from '../pixel-planet/utils/config';
+import { ConfigService } from '../pixel-planet/services/config.service';
 
 @Component({
   selector: 'app-personal',
@@ -13,7 +10,8 @@ import {
 })
 export class PersonalPage implements OnInit {
   public thisPlayer: ThisPlayerService;
-  constructor(thisPlayer: ThisPlayerService) {
+
+  constructor(thisPlayer: ThisPlayerService, private config: ConfigService) {
     this.thisPlayer = thisPlayer;
   }
   async ngOnInit() {}
@@ -29,7 +27,7 @@ export class PersonalPage implements OnInit {
     return point;
   }
 
-  protected readonly DAILY_BONUS_GRANT = DAILY_BONUS_GRANT;
+  protected readonly DAILY_BONUS_GRANT = this.config.DAILY_BONUS_GRANT;
 
-  protected readonly DAILY_SUPER_GRANT = DAILY_SUPER_GRANT;
+  protected readonly DAILY_SUPER_GRANT = this.config.DAILY_SUPER_GRANT;
 }

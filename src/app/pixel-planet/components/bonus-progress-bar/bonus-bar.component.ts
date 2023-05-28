@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Player } from '../../utils/player';
-import { DAILY_BONUS_GRANT } from '../../utils/config';
 import { Point } from '../../utils/point';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-bonus-progress-bar[point]',
@@ -12,18 +11,14 @@ export class BonusBarComponent implements OnInit {
   @Input() point: Point;
   public progress: boolean[] = [];
   flat_bonus(value: number) {
-    for (let i = 0; i < DAILY_BONUS_GRANT; i++) {
-      if (i < value) {
-        this.progress[i] = true;
-      } else {
-        this.progress[i] = false;
-      }
+    for (let i = 0; i < this.config.DAILY_BONUS_GRANT; i++) {
+      this.progress[i] = i < value;
     }
   }
   ngOnChanges() {
     this.flat_bonus(this.point.value);
   }
-  constructor() {}
+  constructor(private config: ConfigService) {}
 
   ngOnInit() {}
 }

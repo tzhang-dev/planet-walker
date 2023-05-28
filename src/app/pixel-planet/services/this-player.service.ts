@@ -12,7 +12,6 @@ export class ThisPlayerService {
     this.allPlayer = allPlayer;
   }
   get player(): Player {
-    const _player = this.allPlayer.getPlayerById(this.playerId);
-    return _player;
+    return this.allPlayer.getPlayerById(this.playerId);
   }
 }

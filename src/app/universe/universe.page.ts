@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Point } from '../pixel-planet/utils/point';
 import { planet_names, PlanetNames } from '../pixel-planet/utils/planets';
-import { CHALLENGE_DAYS } from '../pixel-planet/utils/config';
 import { AllPlayersService } from '../pixel-planet/services/all-players.service';
 import { Player } from '../pixel-planet/utils/player';
 
@@ -27,7 +26,6 @@ export class UniversePage implements OnInit {
       [k in PlanetNames]: { left: Point[]; right: Point[] };
     };
     for (const player of players) {
-      const points = player.points;
       if (player.planet_name && player.side) {
         grouped[player.planet_name] = grouped[player.planet_name] || {};
         grouped[player.planet_name][player.side!] = player.points;

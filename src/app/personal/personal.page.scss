@@ -8,12 +8,15 @@ $super: #e3fbff;
   display: flex;
   flex-direction: column;
   > .stage {
-    width: 320px;
+    width: auto;
     height: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    > app-planet-half {
+      align-self: center;
+    }
     > h1.title {
       margin: 10px 0;
       font-style: normal;

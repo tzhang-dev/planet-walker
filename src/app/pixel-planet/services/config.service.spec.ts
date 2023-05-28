@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ThisChallengeService } from './this-challenge.service';
+import { ConfigService } from './config.service';
 
-describe('ThisChallengeService', () => {
-  let service: ThisChallengeService;
+describe('ConfigService', () => {
+  let service: ConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ThisChallengeService);
+    service = TestBed.inject(ConfigService);
   });
 
   it('should be created', () => {
