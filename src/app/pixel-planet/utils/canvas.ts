@@ -1,6 +1,6 @@
 import { Pixel, PixelData } from './pixel';
 import {
-  DAILY_MAX_SCORE_GAIN,
+  DAILY_BONUS_GRANT,
   HALF_PLANET_IN_CANVAS,
   WHOLE_PLANET_IN_CANVAS,
 } from './config';
@@ -33,6 +33,10 @@ export class Canvas implements CanvasData {
     this.bg_img = bg_img;
     return this;
   }
+
+  clear() {
+    this.init_pixel_items();
+  }
 }
 
 interface HalfPlanetCanvasData extends CanvasData {
@@ -54,7 +58,7 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
     let counter = 0;
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i];
-      for (let j = 0; j < DAILY_MAX_SCORE_GAIN; j++) {
+      for (let j = 0; j < DAILY_BONUS_GRANT; j++) {
         if (j >= score) {
           const [row, col] = map_from_flat_score(this.side, 'half', counter);
           this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_mask();
@@ -68,7 +72,7 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
   public flat_from_score_to_bonus(scores: number[]): PixelData[][] {
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i];
-      if (score >= DAILY_MAX_SCORE_GAIN) {
+      if (score >= DAILY_BONUS_GRANT) {
         const [row, col] = map_from_flat_score(this.side, 'bonus', i);
         this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_bonus();
       }
@@ -91,7 +95,7 @@ export class WholePlanetCanvas extends Canvas implements WholePlanetCanvasData {
     let counter = 0;
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i];
-      for (let j = 0; j < DAILY_MAX_SCORE_GAIN; j++) {
+      for (let j = 0; j < DAILY_BONUS_GRANT; j++) {
         if (j >= score) {
           const [row, col] = map_from_flat_score(side, 'whole', counter);
           this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_mask();

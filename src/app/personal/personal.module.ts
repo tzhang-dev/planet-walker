@@ -6,6 +6,7 @@ import { PersonalPage } from './personal.page';
 
 import { PersonalPageRoutingModule } from './personal-routing.module';
 import { PlanetHalfComponent } from '../pixel-planet/components/planet-half/planet-half.component';
+import { BonusBarComponent } from '../pixel-planet/components/bonus-progress-bar/bonus-bar.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { PlanetHalfComponent } from '../pixel-planet/components/planet-half/plan
     PersonalPageRoutingModule,
     PlanetHalfComponent,
   ],
-  declarations: [PersonalPage],
+  declarations: [PersonalPage, BonusBarComponent],
 })
 export class PersonalPageModule {}

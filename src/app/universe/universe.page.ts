@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import shared from '../pixel-planet/utils/shared';
 import { Point } from '../pixel-planet/utils/point';
 import { planet_names, PlanetNames } from '../pixel-planet/utils/planets';
 import { CHALLENGE_DAYS } from '../pixel-planet/utils/config';
+import { AllPlayersService } from '../pixel-planet/services/all-players.service';
+import { Player } from '../pixel-planet/utils/player';
 
 @Component({
   selector: 'app-universe',
@@ -10,34 +11,28 @@ import { CHALLENGE_DAYS } from '../pixel-planet/utils/config';
   styleUrls: ['universe.page.scss'],
 })
 export class UniversePage implements OnInit {
-  grouped = {} as {
+  planet_names = planet_names;
+  grouped: {
     [k in PlanetNames]: { left: Point[]; right: Point[] };
   };
-  planet_names = planet_names;
-  ready: boolean = false;
-  constructor() {}
-  async ngOnInit() {
-    for (const planet_name of planet_names) {
-      const left = [] as Point[];
-      const right = [] as Point[];
-      for (let i = 0; i < CHALLENGE_DAYS; i++) {
-        left.push(new Point({ value: 0 }));
-        right.push(new Point({ value: 0 }));
-      }
-      this.grouped[planet_name] = { left, right };
-    }
-    await this.update_all();
-    this.ready = true;
+
+  constructor(private allPlayers: AllPlayersService) {
+    this.allPlayers.players.subscribe((players) => {
+      this.grouped = this.makeGroup(players);
+    });
   }
-  async update_all() {
-    const challenge = shared.challenge!;
-    await challenge.get_players();
-    const players = challenge.players;
+  async ngOnInit() {}
+  makeGroup(players: Player[]) {
+    const grouped = {} as {
+      [k in PlanetNames]: { left: Point[]; right: Point[] };
+    };
     for (const player of players) {
-      await player.get_points();
+      const points = player.points;
       if (player.planet_name && player.side) {
-        this.grouped[player.planet_name][player.side!] = player.points;
+        grouped[player.planet_name] = grouped[player.planet_name] || {};
+        grouped[player.planet_name][player.side!] = player.points;
       }
     }
+    return grouped;
   }
 }

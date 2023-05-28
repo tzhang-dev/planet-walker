@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Player } from './pixel-planet/utils/player';
-import shared from './pixel-planet/utils/shared';
-import { Challenge } from './pixel-planet/utils/challenge';
+import { ThisPlayerService } from './pixel-planet/services/this-player.service';
+import { ThisChallengeService } from './pixel-planet/services/this-challenge.service';
+import { AllPlayersService } from './pixel-planet/services/all-players.service';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +9,19 @@ import { Challenge } from './pixel-planet/utils/challenge';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  @Input() player_id: number;
-  @Input() challenge_id: number;
+  player_id: number = 0;
+  challenge_id: number = 0;
   public ready: boolean = false;
-  constructor() {}
+  constructor(
+    private thisPlayer: ThisPlayerService,
+    private thisChallenge: ThisChallengeService,
+    private allPlayers: AllPlayersService
+  ) {}
   async ngOnInit() {
-    shared.player = await Player.get_player(this.player_id);
-    shared.challenge = await Challenge.get_challenge(this.challenge_id);
+    this.thisPlayer.playerId = this.player_id;
+    await this.thisChallenge.setChallengeId(this.challenge_id);
+    this.allPlayers.setPlayers(await this.thisChallenge.getPlayers());
+    await this.allPlayers.updateAll();
     this.ready = true;
   }
 }

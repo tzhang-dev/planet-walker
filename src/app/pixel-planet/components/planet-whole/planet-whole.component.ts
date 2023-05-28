@@ -13,13 +13,15 @@ export class PlanetWholeComponent implements OnInit {
   @Input() set planet_name(planet_name: PlanetNames) {
     this.canvas.set_bg_img(planets[planet_name].whole);
   }
-  @Input() set left(points: Point[]) {
-    const scores = points.map((point) => point.value);
-    this.canvas.flat_from_score_to_planet('left', scores);
-  }
-  @Input() set right(points: Point[]) {
-    const scores = points.map((point) => point.value);
-    this.canvas.flat_from_score_to_planet('right', scores);
+  @Input() left: Point[];
+  @Input() right: Point[];
+
+  ngOnChanges() {
+    this.canvas.clear();
+    const left = this.left.map((point) => point.value);
+    this.canvas.flat_from_score_to_planet('left', left);
+    const right = this.right.map((point) => point.value);
+    this.canvas.flat_from_score_to_planet('right', right);
   }
   constructor() {}
 

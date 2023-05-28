@@ -1,0 +1,17 @@
+$default: #9d9d9d;
+$active: #1bb282;
+.main {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .bonus {
+    width: 10px;
+    height: 10px;
+    background-color: $default;
+    &.is-active {
+      background-color: $active;
+    }
+  }
+}

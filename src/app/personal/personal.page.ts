@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Player } from '../pixel-planet/utils/player';
-import shared from '../pixel-planet/utils/shared';
+import { ThisPlayerService } from '../pixel-planet/services/this-player.service';
+import {
+  DAILY_BONUS_GRANT,
+  DAILY_SUPER_GRANT,
+} from '../pixel-planet/utils/config';
 
 @Component({
   selector: 'app-personal',
@@ -8,12 +12,24 @@ import shared from '../pixel-planet/utils/shared';
   styleUrls: ['personal.page.scss'],
 })
 export class PersonalPage implements OnInit {
-  player: Player;
-  ready: boolean = false;
-  constructor() {}
-  async ngOnInit() {
-    this.player = shared.player!;
-    await this.player.get_points();
-    this.ready = true;
+  public thisPlayer: ThisPlayerService;
+  constructor(thisPlayer: ThisPlayerService) {
+    this.thisPlayer = thisPlayer;
   }
+  async ngOnInit() {}
+  get player(): Player {
+    return this.thisPlayer.player;
+  }
+  get todayPoint() {
+    const today = new Date();
+    let point = this.thisPlayer.player.points.find(
+      (point) => point.date === today
+    );
+    point = point ? point : this.thisPlayer.player.points[0];
+    return point;
+  }
+
+  protected readonly DAILY_BONUS_GRANT = DAILY_BONUS_GRANT;
+
+  protected readonly DAILY_SUPER_GRANT = DAILY_SUPER_GRANT;
 }

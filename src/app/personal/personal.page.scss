@@ -1,3 +1,6 @@
+$default: #9d9d9d;
+$active: #82b1c5;
+$super: #e3fbff;
 .main {
   background-color: #13243f;
   width: 100%;
@@ -21,15 +24,39 @@
       align-items: center;
       color: #ffffff;
     }
-    > h2 {
-      margin: 0;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 24px;
-      display: flex;
-      align-items: center;
-      color: #ffffff;
+  }
+}
+
+.today-status {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  justify-items: self-start;
+  align-items: center;
+  > h2 {
+    margin: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+  }
+  > .progress {
+    margin-left: 5%;
+  }
+  > .bonus {
+    margin-left: 5%;
+    width: 11px;
+    height: 11px;
+    transform: rotate(45deg);
+    background-color: $default;
+    &.is-active {
+      background-color: $active;
+    }
+    &.is-super {
+      background-color: $super;
     }
   }
 }

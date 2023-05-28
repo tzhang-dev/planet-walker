@@ -2,9 +2,24 @@
   <div class="main">
     <div class="stage">
       <h1 class="title">Welcome to your planet !</h1>
-      <app-planet-half *ngIf="ready" [points]="player.points"></app-planet-half>
-      <h2>Daily Pixels</h2>
-      <h2>Bonus Stars</h2>
+      <app-planet-half
+        [planetName]="player.planet_name!"
+        [side]="player.side!"
+        [points]="player.points"
+      ></app-planet-half>
+      <div class="today-status">
+        <h2>Daily Pixels</h2>
+        <app-bonus-progress-bar
+          class="progress"
+          [point]="todayPoint"
+        ></app-bonus-progress-bar>
+        <h2>Bonus Stars</h2>
+        <div
+          class="bonus"
+          [ngClass]="{'is-active': todayPoint.value >= DAILY_BONUS_GRANT,
+          'is-super': todayPoint.value >= DAILY_SUPER_GRANT}"
+        ></div>
+      </div>
     </div>
   </div>
 </ion-content>

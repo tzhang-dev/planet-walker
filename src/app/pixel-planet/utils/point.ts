@@ -1,11 +1,11 @@
 export interface PointData {
   value: number;
-  date?: Date;
+  date: Date;
 }
 
 export class Point implements PointData {
   value: number;
-  date?: Date;
+  date: Date;
 
   constructor(scoreData: PointData) {
     this.value = scoreData.value;
