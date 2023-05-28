@@ -7,7 +7,7 @@
         [side]="player.side!"
         [points]="player.points"
       ></app-planet-half>
-      <div class="today-status">
+      <div class="today-status" (click)="showNotification = true">
         <h2>Daily Pixels</h2>
         <app-bonus-progress-bar
           class="progress"
@@ -20,6 +20,21 @@
           'is-super': todayPoint.value >= DAILY_SUPER_GRANT}"
         ></div>
       </div>
+    </div>
+    <div *ngIf="showNotification" class="notify">
+      <div class="content">
+        <h1>Daily Pixels</h1>
+        <p>
+          By taking 750 steps, you will earn one pixels. It is up to ten pixels
+          per day.
+        </p>
+        <h1>Bonus Stars</h1>
+        <p>
+          If you take more than 7500 steps, you will be reward by a bonus stars.
+          The more steps you take, your star will be more shining.
+        </p>
+      </div>
+      <button (click)="showNotification=false">Confirm</button>
     </div>
   </div>
 </ion-content>

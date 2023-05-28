@@ -10,7 +10,7 @@ import { ConfigService } from '../pixel-planet/services/config.service';
 })
 export class PersonalPage implements OnInit {
   public thisPlayer: ThisPlayerService;
-
+  public showNotification: boolean = false;
   constructor(thisPlayer: ThisPlayerService, private config: ConfigService) {
     this.thisPlayer = thisPlayer;
   }
