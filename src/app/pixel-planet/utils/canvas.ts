@@ -1,6 +1,6 @@
 import { Pixel, PixelData } from './pixel';
 import { map_from_flat_score } from './mapping';
-import { ConfigService } from '../services/config.service';
+import { ConfigConstants } from '../services/config.service';
 
 interface CanvasData {
   matrix: PixelData[][];
@@ -16,7 +16,7 @@ export class Canvas implements CanvasData {
   col_num: number;
   bg_img: string;
   pixel_size: number;
-  constructor(protected config: ConfigService) {}
+  constructor(protected config: ConfigConstants) {}
   protected init_pixel_items() {
     for (let i = 0; i < this.row_num; i++) {
       this.matrix[i] = [];
@@ -46,7 +46,7 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
   constructor(
     pixelSize: number,
     side: 'left' | 'right',
-    config: ConfigService
+    config: ConfigConstants
   ) {
     super(config);
     this.pixel_size = pixelSize;
@@ -88,7 +88,7 @@ interface WholePlanetCanvasData extends CanvasData {}
 export class WholePlanetCanvas extends Canvas implements WholePlanetCanvasData {
   override row_num: number = this.config.WHOLE_PLANET_IN_CANVAS['row_num'];
   override col_num: number = this.config.WHOLE_PLANET_IN_CANVAS['col_num'];
-  constructor(pixelSize: number, config: ConfigService) {
+  constructor(pixelSize: number, config: ConfigConstants) {
     super(config);
     this.pixel_size = pixelSize;
     this.init_pixel_items();

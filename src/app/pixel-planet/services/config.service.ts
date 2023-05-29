@@ -2,10 +2,24 @@ import { Injectable } from '@angular/core';
 import { Player } from '../utils/player';
 import { API_getAllPlayers, API_getChallenge } from '../utils/api';
 
+export interface ConfigConstants {
+  HALF_PLANET_IN_CANVAS: {
+    col_num: number;
+    row_num: number;
+  };
+  WHOLE_PLANET_IN_CANVAS: {
+    col_num: number;
+    row_num: number;
+  };
+  DAILY_BONUS_GRANT: number;
+  DAILY_SUPER_GRANT: number;
+  CHALLENGE_DAYS: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
-export class ConfigService {
+export class ConfigService implements ConfigConstants {
   challengeId: number;
   thisPlayerId: number;
   circleId: number;
