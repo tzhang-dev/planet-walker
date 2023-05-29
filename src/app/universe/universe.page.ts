@@ -26,9 +26,9 @@ export class UniversePage implements OnInit {
       [k in PlanetNames]: { left: Point[]; right: Point[] };
     };
     for (const player of players) {
-      if (player.planet_name && player.side) {
-        grouped[player.planet_name] = grouped[player.planet_name] || {};
-        grouped[player.planet_name][player.side!] = player.points;
+      if (player.planetName && player.side) {
+        grouped[player.planetName] = grouped[player.planetName] || {};
+        grouped[player.planetName][player.side!] = player.points;
       }
     }
     return grouped;

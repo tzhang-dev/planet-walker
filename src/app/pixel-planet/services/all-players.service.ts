@@ -1,63 +1,94 @@
 import { Injectable } from '@angular/core';
-import { Player } from '../utils/player';
+import { Player, PlayerData } from '../utils/player';
 import { planet_names } from '../utils/planets';
 import { BehaviorSubject } from 'rxjs';
+import { ConfigService } from './config.service';
+import * as moment from 'moment';
+import { Point } from '../utils/point';
+import { API_getPoints } from '../utils/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AllPlayersService {
   players = new BehaviorSubject<Player[]>([]);
-  constructor() {
+  constructor(private config: ConfigService) {
     this.init();
-    this.scheduledUpdate();
   }
   init() {
-    let player_id = 0;
-    // TODO: init with undefined
+    let player_id: number | undefined = undefined;
     const players = [];
     for (const planet of planet_names) {
       for (const side of ['left', 'right'] as const) {
-        const player = new Player({ player_id: player_id });
-        player.planet_name = planet;
+        const player = new Player({ playerId: player_id });
+        player.planetName = planet;
         player.side = side;
         player.points = [];
+        for (
+          let i = 0, date = moment(this.config.startDate);
+          i < this.config.CHALLENGE_DAYS;
+          i++, date.add(1, 'days')
+        ) {
+          player.points.push(new Point({ value: 0, date: date.toDate() }));
+        }
         players.push(player);
-        player_id++;
       }
     }
     this.players.next(players);
   }
-  setPlayers(players: Player[]) {
+
+  /**
+   * Set service players ids by planet name and side
+   * @param data player data
+   */
+  setPlayerId(data: PlayerData) {
+    const { planetName, side, playerId } = data;
     const oldPlayers = this.players.getValue();
-    for (const player of players) {
-      const old = oldPlayers.find((value) => {
-        return (
-          value.planet_name === player.planet_name && value.side === player.side
-        );
-      })!;
-      old.player_id = player.player_id;
-    }
+    const player = oldPlayers.find((value) => {
+      return value.planetName === planetName && value.side === side;
+    })!;
+    player.playerId = playerId;
     this.players.next(oldPlayers);
   }
   getPlayerById(player_id: number): Player {
     const players = this.players.getValue();
-    return players.find((player) => player.player_id === player_id)!;
+    return players.find((player) => player.playerId === player_id)!;
   }
-
-  async updateAll() {
-    console.log('update all players');
+  getActivePlayersIds(): number[] {
     const players = this.players.getValue();
-    for (const player of players) {
-      await player.update();
+    return players
+      .filter((player) => player.playerId)
+      .map((player) => player.playerId!);
+  }
+  async updateAllPoints() {
+    const players = this.players.getValue();
+    const endDate = moment(this.config.startDate)
+      .add(this.config.CHALLENGE_DAYS - 1, 'days')
+      .toDate();
+    const apiRes = await API_getPoints(
+      this.config.thisPlayerId,
+      this.config.circleId,
+      this.config.challengeId,
+      this.getActivePlayersIds(),
+      this.config.startDate,
+      endDate
+    );
+    for (const res of apiRes) {
+      const player = players.find(
+        (player) => player.playerId === res.playerId
+      )!;
+      player.points = res.points;
     }
     this.players.next(players);
   }
-
-  private async scheduledUpdate() {
-    await this.updateAll();
+  startScheduledUpdate(interval: number = 3000) {
+    console.log('scheduled update service start, interval:', interval);
+    this.scheduledUpdate(interval).then(() => {});
+  }
+  private async scheduledUpdate(interval: number) {
+    await this.updateAllPoints();
     setTimeout(() => {
-      this.scheduledUpdate();
+      this.scheduledUpdate(interval);
     }, 3000);
   }
 }
