@@ -83,12 +83,12 @@ export class AllPlayersService {
   }
   startScheduledUpdate(interval: number = 3000) {
     console.log('scheduled update service start, interval:', interval);
-    this.scheduledUpdate(interval).then(() => {});
+    this.scheduledUpdate(interval);
   }
-  private async scheduledUpdate(interval: number) {
-    await this.updateAllPoints();
+  private scheduledUpdate(interval: number) {
     setTimeout(() => {
       this.scheduledUpdate(interval);
-    }, 3000);
+    }, interval);
+    this.updateAllPoints();
   }
 }
