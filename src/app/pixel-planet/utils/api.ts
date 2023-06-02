@@ -97,8 +97,7 @@ export const API_getPoints = async (
   circleId: number,
   challengeId: number,
   playerIds: number[],
-  startDate: Date,
-  endDate: Date
+  dates: Date[]
 ) => {
   // Initialize result
   const result = [] as {
@@ -106,13 +105,11 @@ export const API_getPoints = async (
     points: Point[];
   }[];
   for (const playerId of playerIds) {
-    const date = moment(startDate);
     const points = [] as Point[];
-    while (true) {
-      if (date.isAfter(endDate)) break;
-      points.push(new Point({ date: date.toDate(), value: 0 }));
-      date.add(1, 'day');
-    }
+    dates.forEach((date) => {
+      const tmp: Date = JSON.parse(JSON.stringify(date));
+      points.push(new Point({ date: tmp, value: 0 }));
+    });
     result.push({
       playerId,
       points: points,
@@ -130,7 +127,7 @@ export const API_getPoints = async (
       return activity.gameDescriptor.translationKey === 'WALK';
     })
     .map((activity) => {
-      activity.personalPoints = activity.personalPoints?.filter(
+      activity.personalPoints = activity.personalPoints!.filter(
         (personalPoint) => {
           if (personalPoint.participation.challenge.id !== challengeId)
             return false;
@@ -140,6 +137,9 @@ export const API_getPoints = async (
         }
       );
       return activity;
+    })
+    .filter((activity) => {
+      return activity.personalPoints!.length !== 0;
     })
     .map((activity) => {
       let value = 0;

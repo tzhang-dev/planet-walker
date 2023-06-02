@@ -62,16 +62,12 @@ export class AllPlayersService {
   }
   async updateAllPoints() {
     const players = this.players.getValue();
-    const endDate = moment(this.config.startDate)
-      .add(this.config.CHALLENGE_DAYS - 1, 'days')
-      .toDate();
     const apiRes = await API_getPoints(
       this.config.thisPlayerId,
       this.config.circleId,
       this.config.challengeId,
       this.getActivePlayersIds(),
-      this.config.startDate,
-      endDate
+      this.config.getChallengeDates()
     );
     for (const res of apiRes) {
       const player = players.find(

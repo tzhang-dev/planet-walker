@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Player } from '../utils/player';
 import { API_getAllPlayers, API_getChallenge } from '../utils/api';
+import * as moment from 'moment';
 
 export interface ConfigConstants {
   HALF_PLANET_IN_CANVAS: {
@@ -33,7 +34,7 @@ export class ConfigService implements ConfigConstants {
     row_num: 25,
   };
   DAILY_BONUS_GRANT = 10;
-  DAILY_SUPER_GRANT = 12;
+  DAILY_SUPER_GRANT = 13;
   CHALLENGE_DAYS = 20;
   constructor() {}
   public async updateChallengeSettings() {
@@ -46,5 +47,18 @@ export class ConfigService implements ConfigConstants {
 
   public async getPlayers(): Promise<Player[]> {
     return await API_getAllPlayers(this.thisPlayerId, this.circleId);
+  }
+  public getChallengeDates(): Date[] {
+    const dates: Date[] = [];
+    let date = new Date(this.startDate);
+    for (let i = 0; i < this.CHALLENGE_DAYS; i++) {
+      // filter out weekends with moment
+      while (moment(date).isoWeekday() >= 6) {
+        date = moment(date).add(1, 'days').toDate();
+      }
+      dates.push(date);
+      date = moment(date).add(1, 'days').toDate();
+    }
+    return dates;
   }
 }
