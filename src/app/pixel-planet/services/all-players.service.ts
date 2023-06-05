@@ -12,8 +12,11 @@ import { API_getPoints } from '../utils/api';
 })
 export class AllPlayersService {
   players = new BehaviorSubject<Player[]>([]);
+  private timeoutId: number | undefined = undefined;
+  private timeoutInterval: number = 3000;
   constructor(private config: ConfigService) {
     this.init();
+    this.initFocusBehavior();
   }
   init() {
     let player_id: number | undefined = undefined;
@@ -35,6 +38,19 @@ export class AllPlayersService {
       }
     }
     this.players.next(players);
+  }
+
+  private initFocusBehavior() {
+    addEventListener('focus', () => {
+      if (this.timeoutId) {
+        return;
+      }
+      this.startScheduledUpdate(this.timeoutInterval);
+    });
+    addEventListener('blur', () => {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = undefined;
+    });
   }
 
   /**
@@ -77,14 +93,15 @@ export class AllPlayersService {
     }
     this.players.next(players);
   }
-  startScheduledUpdate(interval: number = 3000) {
+  startScheduledUpdate(interval: number) {
+    this.timeoutInterval = interval;
     console.log('scheduled update service start, interval:', interval);
     this.scheduledUpdate(interval);
   }
-  private scheduledUpdate(interval: number) {
-    setTimeout(() => {
+  private async scheduledUpdate(interval: number) {
+    await this.updateAllPoints();
+    this.timeoutId = window.setTimeout(() => {
       this.scheduledUpdate(interval);
     }, interval);
-    this.updateAllPoints();
   }
 }
