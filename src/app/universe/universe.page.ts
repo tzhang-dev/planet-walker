@@ -16,21 +16,32 @@ export class UniversePage implements OnInit {
   };
 
   constructor(private allPlayers: AllPlayersService) {
+    this.initGrouped();
     this.allPlayers.players.subscribe((players) => {
       this.grouped = this.makeGroup(players);
     });
   }
   async ngOnInit() {}
   makeGroup(players: Player[]) {
-    const grouped = {} as {
-      [k in PlanetNames]: { left: Point[]; right: Point[] };
-    };
+    const grouped = this.grouped;
     for (const player of players) {
       if (player.planetName && player.side) {
-        grouped[player.planetName] = grouped[player.planetName] || {};
         grouped[player.planetName][player.side!] = player.points;
       }
     }
     return grouped;
+  }
+
+  initGrouped() {
+    const grouped = {} as {
+      [k in PlanetNames]: { left: Point[]; right: Point[] };
+    };
+    for (const planet_name of planet_names) {
+      grouped[planet_name] = {
+        left: Array(20).fill(new Point({value: 0, date: new Date()})),
+        right: Array(20).fill(new Point({value: 0, date: new Date()}))
+      };
+    }
+    this.grouped = grouped;
   }
 }
