@@ -24,8 +24,10 @@ export class PlanetWholeComponent implements OnInit {
     this.canvas.clear();
     const left = this.left.map((point) => point.value);
     this.canvas.flat_from_score_to_planet('left', left);
+    this.canvas.flat_from_score_to_bonus('left', left);
     const right = this.right.map((point) => point.value);
     this.canvas.flat_from_score_to_planet('right', right);
+    this.canvas.flat_from_score_to_bonus('right', right);
   }
   constructor(private config: ConfigService) {
     this.canvas = new WholePlanetCanvas(0, this.config);

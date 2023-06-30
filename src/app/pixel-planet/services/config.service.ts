@@ -30,8 +30,8 @@ export class ConfigService implements ConfigConstants {
     row_num: 29,
   };
   WHOLE_PLANET_IN_CANVAS = {
-    col_num: 25,
-    row_num: 25,
+    col_num: 29,
+    row_num: 29,
   };
   DAILY_BONUS_GRANT = 10;
   DAILY_SUPER_GRANT = 13;

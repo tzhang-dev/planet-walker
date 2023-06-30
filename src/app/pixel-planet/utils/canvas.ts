@@ -72,7 +72,7 @@ export class HalfPlanetCanvas extends Canvas implements HalfPlanetCanvasData {
     for (let i = 0; i < scores.length; i++) {
       const score = scores[i];
       if (score >= this.config.DAILY_BONUS_GRANT) {
-        const [row, col] = map_from_flat_score(this.side, 'bonus', i);
+        const [row, col] = map_from_flat_score(this.side, 'halfBonus', i);
         this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_bonus();
         if (score >= this.config.DAILY_SUPER_GRANT) {
           this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_super();
@@ -106,5 +106,17 @@ export class WholePlanetCanvas extends Canvas implements WholePlanetCanvasData {
       }
     }
     return this;
+  }
+  public flat_from_score_to_bonus(side: 'left' | 'right', scores: number[]) {
+    for (let i = 0; i < scores.length; i++) {
+      const score = scores[i];
+      if (score >= this.config.DAILY_BONUS_GRANT) {
+        const [row, col] = map_from_flat_score(side, 'wholeBonus', i);
+        this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_bonus();
+        if (score >= this.config.DAILY_SUPER_GRANT) {
+          this.matrix[row][col] = (this.matrix[row][col] as Pixel).set_super();
+        }
+      }
+    }
   }
 }
