@@ -24,8 +24,11 @@ To add data to a particular date, e.g. 2023-06-26, you can change the number sho
 ![img.png](doc/expData-example.png)
 
 To show a player's planet, first locate at `src/app/app.component.ts`.
+
 Modify line 19 of value of `playerId` to the player id list in `data.ts` file.
+
 ![img.png](doc/player-example.png)
+
 For example, if you wish to show the participant whose planet is earth-left, you need to set `playerId` to 1.
 
 ## Remarks
