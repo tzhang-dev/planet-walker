@@ -1,6 +1,6 @@
 # How to run exp data
 
-## quick start
+## set up
 
 Below is how to run the planet-walker app in few steps.
 
@@ -10,6 +10,13 @@ Below is how to run the planet-walker app in few steps.
 git clone https://github.com/yah-yuan/planet-walker.git
 cd planet-walker
 npm install
+```
+
+You need to run this set up `only once`.
+
+## quick start
+
+```shell
 npm run start
 ```
 
@@ -22,6 +29,8 @@ Locate file `src/app/pixel-planet/utils/data.ts`.
 To add data to a particular date, e.g. 2023-06-26, you can change the number showed in `data.points["2023-06-26"].value`.
 
 ![img.png](doc/expData-example.png)
+
+## how to switch player
 
 To show a player's planet, first locate at `src/app/app.component.ts`.
 
